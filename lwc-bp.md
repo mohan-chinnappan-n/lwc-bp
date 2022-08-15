@@ -1,5 +1,7 @@
-# LWC  Naming convention 
-## Markup
+# LWC  Best Practices
+
+## Naming convention 
+### Markup
 - Use **camelCase** to name the component e.g: ```helloWorld```
 - Use **kehab-case** to reference a component 
 - Should begin with a lower case e.g. ```helloWorld.html```
@@ -43,7 +45,7 @@ target dir = /Users/mchinnappan/bp/force-app/main/default/lwc
 ```
 
 
-### Wrong name - how lwc generator fixes it
+#### Wrong name - how lwc generator fixes it
 ```
 sfdx force:lightning:component:create -n WrongName --type lwc -d force-app/main/default/lwc
 ```
@@ -66,16 +68,16 @@ export default class WireGetRecordAccount extends LightningElement { }
 ```
 ---
 
-# Calling Apex class (```@salesforce/apex/```)
+## Calling Apex class (```@salesforce/apex/```)
 
-## Wiring service
+### Wiring service
 - The wire service provisions an **immutable stream of data** to the component. Each value in the stream is **a newer version** of the value that precedes it.
 
 - Supports reactive variables, which are prefixed with ```$```
 - If a reactive variable changes, the wire service **provisions** new data. 
 	- provisions means
 		- Instead of “requests” or “fetches” if the data exists in the client cache, it will be used for this
-### Note
+- **Note**
 - The wire service delegates control flow to the **Lightning Web Components engine**. 
 - Delegating control is great for **read** operations, but it isn’t great for create, update, and delete operations. 
 - As a developer, you want complete control over operations that change data. That’s why you perform create, update, and delete operations with a JavaScript API (like [lightning/uiRecordApi](https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.reference_lightning_ui_api_record)) instead of with the wire service.
