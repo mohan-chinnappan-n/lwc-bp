@@ -1,31 +1,34 @@
 ## LWC Bundle nameing convention 
-- Markup
-	- Use **camelCase** to name the component
-	- Use **kehab-case** to reference a component 
-	- Should begin with a lower case e.g. ```helloWorld.html```
-	- Can contain alphanumeric or underscore characters
-	- Can't contain hypen
+### Markup
+- Use **camelCase** to name the component
+- Use **kehab-case** to reference a component 
+- Should begin with a lower case e.g. ```helloWorld.html```
+- Can contain alphanumeric or underscore characters
+- Can't contain hypen
+
 ```
 sfdx force:lightning:component:create -n "Wrong-Name3" --type lwc -d force-app/main/default/lwc
 ERROR running force:lightning:component:create:  Name must contain only alphanumeric characters.
 ```
-	- Can't contain white spaces (blanks)
+
+- Can't contain white spaces (blanks)
+
 ```
 sfdx force:lightning:component:create -n "Wrong Name3" --type lwc -d force-app/main/default/lwc
 ERROR running force:lightning:component:create:  Name must contain only alphanumeric characters.
 ```
 
-	- Can't end with underscore (_)
+- Can't end with underscore (_)
 ```
 sfdx force:lightning:component:create -n WrongName2_ --type lwc -d force-app/main/default/lwc
 ERROR running force:lightning:component:create:  Name can't end with an underscore.
 ```
-	- Can't have more than one consecutive underscores
+- Can't have more than one consecutive underscores
 ```
 sfdx force:lightning:component:create -n "Wrong__Name3" --type lwc -d force-app/main/default/lwc
 ERROR running force:lightning:component:create:  Name can't contain 2 consecutive underscores.
 ```
-	- Folder and files names must have same prefix name
+- Folder and files names must have same prefix name
 
 ### Correct name
 ```
