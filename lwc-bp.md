@@ -83,7 +83,8 @@ export default class WireGetRecordAccount extends LightningElement { }
 
 ### Imperative 
 
-```html - apexImperativeMethod.html
+```html 
+<!-- apexImperativeMethod.html -->
 <template>
 
 <p class="slds-var-m-bottom_small">
@@ -97,7 +98,8 @@ export default class WireGetRecordAccount extends LightningElement { }
 
 ```
 
-```js - apexImperativeMethod.js
+```js
+// apexImperativeMethod.js
 
 import { LightningElement } from 'lwc';
 import getContactList from '@salesforce/apex/ContactController.getContactList';
@@ -121,7 +123,8 @@ export default class ApexImperativeMethod extends LightningElement {
 
 ```
 
-```java - ContactController.cls
+```java 
+// ContactController.cls
 public with sharing class ContactController {
 	@AuraEnabled(cacheable=true)
     public static List<Contact> getContactList() {
