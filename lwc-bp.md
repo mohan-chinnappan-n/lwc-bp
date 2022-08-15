@@ -101,6 +101,10 @@ export default class WireGetRecordAccount extends LightningElement { }
 import { LightningElement } from 'lwc';
 import getContactList from '@salesforce/apex/ContactController.getContactList';
 
+// Modules scoped with @salesforce add functionality to Lightning web components at runtime.
+
+
+
 export default class ApexImperativeMethod extends LightningElement {
     contacts;
     error;
@@ -124,7 +128,28 @@ export default class ApexImperativeMethod extends LightningElement {
 // ContactController.cls
 public with sharing class ContactController {
 	@AuraEnabled(cacheable=true)
+	// marking actions as storable (cacheable) 
+	// allows us to quickly show cached data from client-side storage 
+	// without waiting for a server trip. 
+	//  - Never mark as storable an action that updates or deletes data.
+
+	// Client-side storage is automatically configured in Lightning Experience and the Salesforce mobile app.
+	/*
+	If the cached data is stale, the framework retrieves the latest data from the server. 
+	Caching is especially beneficial for users on high latency, slow, or unreliable connections such as 3G networks.
+	
+	Most server requests are read-only and idempotent, which means that a request can be repeated or retried as often as necessary without causing data changes
+
+	The responses to idempotent actions can be cached and quickly reused for subsequent identical actions. For storable actions, the key for determining an identical action is a combination of:
+
+	Apex controller name
+	Method name
+	Method parameter values
+
+
+	*/
     public static List<Contact> getContactList() {
+		// https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_with_security_enforced.htm
         return [
             SELECT Id, Name, FirstName, LastName, Title, Phone, Email, Picture__c FROM Contact
 			WHERE Picture__c != NULL
@@ -134,7 +159,101 @@ public with sharing class ContactController {
     }
 ```
 
+
+### Wire
+
+```html
+ <template if:true={record.data}>
+	<div> <pre>{recordStr}</pre> </div>
+ </template>
+```
+
+- Syntax
+```
+import { adapterId } from 'adapterModule';
+// import { getRecord } from 'lightning/uiRecordApi';
+
+@wire(adapterId, adapterConfig)
+propertyOrFunction;
+
+/*
+//adapterId  -> getRecord
+//adapterConfig ->  { recordId: '$userId', fields: [NAME_FIELD], optionalFields: [EMAIL_FIELD] } 
+
+ @wire(getRecord, {
+        recordId: '$userId', // <--- reactive variable
+        fields: [NAME_FIELD],
+        optionalFields: [EMAIL_FIELD]
+    })
+    record; // propertyOrFunction 
+*/
+
+```
+```js
+import { LightningElement, wire } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
+// https://developer.salesforce.com/docs/component-library/documentation/en/lwc/lwc.reference_wire_adapters_record
+import NAME_FIELD from '@salesforce/schema/User.Name';
+import EMAIL_FIELD from '@salesforce/schema/User.Email';
+import Id from '@salesforce/user/Id';
+
+export default class WireGetRecord extends LightningElement {
+    userId = Id;
+
+	// about reactive 
+	/*
+	The $ prefix tells the wire service to treat it as a property of the class and evaluate it as
+	this.propertyName. 
+	The property is reactive. If the property’s value changes, new data is provisioned and the component rerenders.
+	*/
+
+    @wire(getRecord, {
+        recordId: '$userId', // <--- reactive variable
+        fields: [NAME_FIELD],
+        optionalFields: [EMAIL_FIELD]
+    })
+    record; //wire property
+
+    get recordStr() {
+        return this.record ? JSON.stringify(this.record.data, null, 2) : '';
+    }
+}
+
+```
+
+### Decorate a function with @wire
+```js
+// wireFunction.js
+import { LightningElement, api, track, wire } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
+
+export default class WireFunction extends LightningElement {
+    @api recordId;
+    @track record;
+    @track error;
+
+    @wire(getRecord, { recordId: '$recordId', fields: ['Account.Name'] })
+    wiredAccount({ error, data }) { // The wire service provisions the function an object with error and data properties, just like a wired property.
+        if (data) {
+            this.record = data; // property is assigned with the data got provisioned
+            this.error = undefined;
+        } else if (error) {
+            this.error = error;
+            this.record = undefined;
+        }
+    }
+    get name() {
+        return this.record.fields.Name.value;
+    }
+}
+```
+
 |Style|Notes|Comments|
 |---|---|---|
 |Imperatively|||
-|Wire|Wire Property, Wire function|use wire over imperative method invocation.Prefer wiring to a property|
+|Wire|Wire Property, Wire function|use wire over imperative method invocation. Wiring to property is preferred|
+
+
+#  Lightning Data Service (LDS)
+
+![LDS](https://resources.docs.salesforce.com/images/96c6c99f3a530fbd2600a734ee804326.png)
