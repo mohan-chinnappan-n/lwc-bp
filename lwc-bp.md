@@ -88,12 +88,9 @@ export default class WireGetRecordAccount extends LightningElement { }
 <template>
 
 <p class="slds-var-m-bottom_small">
-                <lightning-button
-                    label="Load Contacts"
-                    onclick={handleLoad} 
-                ></lightning-button>
-            </p>
-
+	<!-- onclick is handled by imperative method: handleLoad -->
+ 	<lightning-button label="Load Contacts" onclick={handleLoad} ></lightning-button>
+</p>
 </template>
 
 ```
@@ -137,6 +134,7 @@ public with sharing class ContactController {
     }
 ```
 
+|Style|Notes|Comments|
 |---|---|---|
 |Imperatively|||
 |Wire|Wire Property, Wire function|use wire over imperative method invocation.Prefer wiring to a property|
