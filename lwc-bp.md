@@ -256,6 +256,27 @@ export default class WireFunction extends LightningElement {
 |Wire|Wire Property, Wire function|use wire over imperative method invocation. Wiring to property is preferred|
 
 
-#  Lightning Data Service (LDS)
+##  Lightning Data Service (LDS)
+
+- Lightning Data Service manages data for you; changes to a record are reflected in all the technologies built on it. Contrastingly, data from Apex is not managed; you must refresh the data.
+- Loads record data progressively
+- Caches results on the client
+- Invalidates cache entries when dependent Salesforce **data and metadata changes**
+- Optimizes server calls by bulkifying and deduping requests
+- Maintains a client-side cache of record data that has been loaded via a wire adapter
+	- Loading data from this cache is faster than requesting it from the server
+	- Requests the record data from the server to satisfy requests that occur **after the cache lifetime**
+- Lightning Data Service is built on top of User Interface API. 
+	- UI API gives you data and metadata in a single response
+	-  Responses match layout changes made to the org by Salesforce admins. If an admin removes a field from a layout, that field isn’t included in a response to a request for layout metadata.
+
+
 
 ![LDS](https://resources.docs.salesforce.com/images/96c6c99f3a530fbd2600a734ee804326.png)
+- Records loaded in Lightning Data Service are cached and shared across components
+	- If a page is composed of components showing the same record, all components show the same version of the record.
+	- Components accessing the same record see significant performance improvements, because a record is loaded once, no matter how many components are using it.
+- Supports all custom objects and all the standard objects that User Interface API supports.
+- External objects, person accounts, and custom metadata types are not supported.
+
+- If Lightning Data Service detects a change to a record or any data or metadata it supports, all components using a **relevant @wire adapter receive the new value**.
