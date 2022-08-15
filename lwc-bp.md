@@ -1,5 +1,5 @@
-## LWC Bundle nameing convention 
-### Markup
+# LWC Bundle naming convention 
+## Markup
 - Use **camelCase** to name the component
 - Use **kehab-case** to reference a component 
 - Should begin with a lower case e.g. ```helloWorld.html```
@@ -56,13 +56,12 @@ target dir = /Users/mchinnappan/bp/force-app/main/default/lwc
 ```
 
 
-- JS 
-	- Class name should be in **PascalCase**
-```
-import { LightningElement, api, wire } from 'lwc';
+## JS 
+- Class name should be in **PascalCase**
 
-export default class WireGetRecordAccount extends LightningElement {
-}
+```js
+import { LightningElement, api, wire } from 'lwc';
+export default class WireGetRecordAccount extends LightningElement { }
 
 ```
 ---
