@@ -3,7 +3,7 @@
 ## Naming convention 
 ### Markup
 - Use **camelCase** to name the component e.g: ```helloWorld```
-- Use **kehab-case** to reference a component 
+- Use **kebab-case** to reference a component 
 - Should begin with a lower case e.g. ```helloWorld.html```
 - Can contain alphanumeric or underscore characters
 - Can't contain (-) 
@@ -280,3 +280,7 @@ export default class WireFunction extends LightningElement {
 - External objects, person accounts, and custom metadata types are not supported.
 
 - If Lightning Data Service detects a change to a record or any data or metadata it supports, all components using a **relevant @wire adapter receive the new value**.
+
+
+## Debugging LWC
+- [Debug Your Lightning Web Components](https://developer.salesforce.com/blogs/2019/02/debug-your-lightning-web-components)

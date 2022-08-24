@@ -1,0 +1,18 @@
+$font-stack: Helvetica, sans-serif;
+$primary-color: #333;
+@import "https://unpkg.com/open-props";
+
+
+.carousel {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-8);
+  padding-block: var(--size-10);
+  background-color: var(--gray-3);
+  
+}
+
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
